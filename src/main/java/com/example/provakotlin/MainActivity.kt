@@ -115,10 +115,12 @@ fun LayoutListaProdutos(navController : NavController, produtos: List<Produto>) 
         items(produtos){
             produto ->
 
-            Row(
+            Column(
                 modifier = Modifier.fillMaxSize()
 
             ) {
+                Spacer(modifier = Modifier.height(20.dp))
+
             Text(text = "Produto: ${produto.nome} Quantidade: (${produto.quantidade})")
 
                 Button(onClick = {
@@ -152,6 +154,12 @@ fun LayoutDetalhesProdutos(navController : NavController, produto: Produto) {
         horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
+
+        Text(text = "Detalhes do Produtos", modifier = Modifier.fillMaxWidth(),
+            fontSize = 22.sp, textAlign = TextAlign.Center)
+
+        Spacer(modifier = Modifier.height(20.dp))
+
         Text(text = "Produto: ${produto.nome}" +
                 "\n Quantidade: (${produto.categoria})"+
                 "\n Quantidade: (${produto.preco})"+
