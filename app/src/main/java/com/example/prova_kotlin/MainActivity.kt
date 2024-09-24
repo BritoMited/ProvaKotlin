@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -25,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -64,23 +66,23 @@ fun LayoutCadastroProduto(navController: NavController, listaProduto: MutableLis
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Text(text = "Nome do Produto")
+        Text(text = "Nome do Produto: ")
         TextField(value = nome, onValueChange = { nome = it }, label = { Text(text = "Insira aqui") })
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Text(text = "Categoria")
+        Text(text = "Categoria: ")
         TextField(value = categoria, onValueChange = { categoria = it }, label = { Text(text = "Insira aqui") })
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Text(text = "Preço")
-        TextField(value = preco, onValueChange = { preco = it }, label = { Text(text = "Insira aqui") })
+        Text(text = "Preço: (Utilize (.) Para números decimais)")
+        TextField(value = preco, onValueChange = { preco = it }, label = { Text(text = "Insira aqui") },  keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Text(text = "Quantidade")
-        TextField(value = quantidade, onValueChange = { quantidade = it }, label = { Text(text = "Insira aqui") })
+        Text(text = "Quantidade: ")
+        TextField(value = quantidade, onValueChange = { quantidade = it }, label = { Text(text = "Insira aqui") },  keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -111,32 +113,31 @@ fun LayoutCadastroProduto(navController: NavController, listaProduto: MutableLis
 fun LayoutListaProdutos(navController : NavController, produtos: List<Produto>) {
 
     Column(
-        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize(),
+        ///verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        LazyColumn(modifier = Modifier.fillMaxWidth()){
+        LazyColumn() {
 
-            items(produtos){
-                    produto ->
-
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    Text(text = "Produto: ${produto.nome} Quantidade: (${produto.quantidade})")
-
-                    Button(onClick = {
-
-                        val produtoJson = Produto.toJson(produto)
-
-                        navController.navigate("detalhes/$produtoJson")
+            items(produtos) { produto ->
 
 
-                    }) {
+                Spacer(modifier = Modifier.height(20.dp))
 
-                        Text(text = "Ver detalhes")
-                    }
+                Text(text = "Produto: ${produto.nome} " +
+                        "\nQuantidade: (${produto.quantidade})")
+
+                Button(onClick = {
+
+                    val produtoJson = Produto.toJson(produto)
+
+                    navController.navigate("detalhes/$produtoJson")
 
 
+                }) {
+
+                    Text(text = "Ver detalhes")
+                }
 
             }
 
@@ -145,9 +146,9 @@ fun LayoutListaProdutos(navController : NavController, produtos: List<Produto>) 
 
     Column(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
-    )  {
+    ) {
 
         Button(onClick = {
             navController.popBackStack()
@@ -159,16 +160,8 @@ fun LayoutListaProdutos(navController : NavController, produtos: List<Produto>) 
             navController.navigate("estatisticasProdutos")
         }) {
             Text(text = "Estatísticas")
-
         }
-
     }
-
-
-    
-
-
-
 }
 
 @Composable
